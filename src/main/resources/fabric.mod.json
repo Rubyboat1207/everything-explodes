@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "explodes",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Everything Explodes",
+  "description": "Whenever a mob dies it explodes",
   "authors": [
-    "Me!"
+    "Rubyboat1207"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
