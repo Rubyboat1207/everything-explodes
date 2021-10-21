@@ -1,4 +1,4 @@
-package net.fabricmc.example.mixin;
+package com.rubyboat.explodes.mixin;
 
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
