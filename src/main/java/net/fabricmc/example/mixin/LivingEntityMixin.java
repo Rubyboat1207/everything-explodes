@@ -1,5 +1,6 @@
 package net.fabricmc.example.mixin;
 
+import net.fabricmc.example.ExampleMod;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -38,7 +39,7 @@ public class LivingEntityMixin {
 			try
 			{
 				TntEntity tntEntity = new TntEntity(serverWorld, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), null);
-				tntEntity.setFuse(40);
+				tntEntity.setFuse(serverWorld.getGameRules().getInt(ExampleMod.FUSE_LENGTH));
 				serverWorld.spawnEntity(tntEntity);
 			}catch(Exception e)
 			{
