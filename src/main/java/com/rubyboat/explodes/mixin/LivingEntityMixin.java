@@ -1,5 +1,6 @@
 package com.rubyboat.explodes.mixin;
 
+import com.rubyboat.explodes.Main;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -22,11 +23,11 @@ public class LivingEntityMixin {
 	}
 	public void spawnTNT(LivingEntity livingEntity) {
 		if (livingEntity.deathTime >= 19) {
-			ServerWorld serverWorld = null;
+
 			if (livingEntity.getEntityWorld() instanceof ServerWorld) {
-				serverWorld = (ServerWorld) livingEntity.getEntityWorld();
+				ServerWorld serverWorld = (ServerWorld) livingEntity.getEntityWorld();
 				TntEntity tntEntity = new TntEntity(serverWorld, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), null);
-				tntEntity.setFuse(40);
+				tntEntity.setFuse(serverWorld.getGameRules().getInt(Main.FUSE_TICKS));
 				serverWorld.spawnEntity(tntEntity);
 				//debug
 				for (int i = serverWorld.getPlayers().size(); i < serverWorld.getPlayers().size(); i++) {
