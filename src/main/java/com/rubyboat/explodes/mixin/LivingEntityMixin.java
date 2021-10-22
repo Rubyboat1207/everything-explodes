@@ -15,42 +15,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 	@Inject(at = @At("HEAD"), method = "updatePostDeath", cancellable = true)
-	public void updatePostDeath(CallbackInfo ci)
-	{
-		if(!((LivingEntity)(Object)this).isPlayer())
-		{
-			spawnTNT((LivingEntity) (Object)this);
+	public void updatePostDeath(CallbackInfo ci) {
+		if (!((LivingEntity)(Object) this).isPlayer()) {
+			spawnTNT((LivingEntity)(Object) this);
 		}
 	}
-	public void spawnTNT(LivingEntity livingEntity)
-	{
-		if(livingEntity.deathTime >= 19)
-		{
+	public void spawnTNT(LivingEntity livingEntity) {
+		if (livingEntity.deathTime >= 19) {
 			ServerWorld serverWorld = null;
-			try
-			{
+			if (livingEntity.getEntityWorld() instanceof ServerWorld) {
 				serverWorld = (ServerWorld) livingEntity.getEntityWorld();
-			}
-			catch (Exception e)
-			{
-				return;
-			}
-			try
-			{
 				TntEntity tntEntity = new TntEntity(serverWorld, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), null);
 				tntEntity.setFuse(40);
 				serverWorld.spawnEntity(tntEntity);
-			}catch(Exception e)
-			{
-				for(int i = serverWorld.getPlayers().size(); i < serverWorld.getPlayers().size(); i++)
-				{
-					if(serverWorld.getPlayers().get(i).hasPermissionLevel(2))
-					{
+				//debug
+				for (int i = serverWorld.getPlayers().size(); i < serverWorld.getPlayers().size(); i++) {
+					if (serverWorld.getPlayers().get(i).hasPermissionLevel(2)) {
 						serverWorld.getPlayers().get(i).sendMessage(Text.of("TNT Failed to go off"), false);
 					}
 				}
 			}
 
 		}
+
 	}
 }
