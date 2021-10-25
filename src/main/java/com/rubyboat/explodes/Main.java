@@ -1,30 +1,55 @@
 package com.rubyboat.explodes;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Main implements ModInitializer {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LogManager.getLogger("modid");
+	/*
+	LIST OF GAMEMODES:
+	Dehidration - No Touch Water
+	OverHydrated - Must Be inside water
+	vegan - No Eat Meat & No Killing Animals
+	Peace Love & Plants - No Killing or u become spectator
+	PVZ - No Dealing Damage, but you can place plants
+	NoFall - You Cant Fall
+	OnlyFlight - Stuck In Elytra Flight Mode
+	 */
+	public static final CustomGameRuleCategory GAMEMODES = new CustomGameRuleCategory(new Identifier("gamemodes", "gamemodes"), Text.of("Gamemodes"));
 	public static final GameRules.Key<GameRules.IntRule> FUSE_TICKS = GameRuleRegistry.register(
 			"fuseTicks",
-			GameRules.Category.MOBS,
+			GAMEMODES,
 			GameRuleFactory.createIntRule(40, 0)
 	);
 	public static final GameRules.Key<GameRules.IntRule> TNT_POWER = GameRuleRegistry.register(
 			"tntPower",
 			GameRules.Category.MOBS,
 			GameRuleFactory.createIntRule(4, 0)
+	);
+	public static final GameRules.Key<GameRules.BooleanRule> IS_TNT_GAMEMODE = GameRuleRegistry.register(
+			"isTNTGamemode",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
+	public static final GameRules.Key<GameRules.BooleanRule> NO_FALL = GameRuleRegistry.register(
+			"isNoFlight",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
+	public static final GameRules.Key<GameRules.BooleanRule> PVZ = GameRuleRegistry.register(
+			"isPVZ",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
 	);
 	public static void spawnTNT(LivingEntity livingEntity) {
 		if (livingEntity.deathTime >= 19) {
@@ -48,10 +73,6 @@ public class Main implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
 
-		LOGGER.info("Hello Fabric world!");
 	}
 }

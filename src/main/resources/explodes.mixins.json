@@ -6,7 +6,8 @@
   "mixins": [
     "LivingEntityMixin",
     "TntEntityMixin",
-    "DragonEntityMixin"
+    "DragonEntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
   ],

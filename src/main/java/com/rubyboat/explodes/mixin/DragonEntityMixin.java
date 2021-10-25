@@ -15,9 +15,12 @@ public class DragonEntityMixin {
     @Inject(at = @At("HEAD"), method = "updatePostDeath", cancellable = true)
     public void updatePostDeath(CallbackInfo ci)
     {
-        EnderDragonEntity enderDragonEntity = (EnderDragonEntity)(Object) this;
-        World world = enderDragonEntity.getEntityWorld();
-        Main.spawnTNT(enderDragonEntity);
-        world.createExplosion(enderDragonEntity, enderDragonEntity.prevX, enderDragonEntity.prevY, enderDragonEntity.prevZ, 10, Explosion.DestructionType.BREAK);
+        if(((EnderDragonEntity)(Object) this).getEntityWorld().getGameRules().getBoolean(Main.IS_TNT_GAMEMODE))
+        {
+            EnderDragonEntity enderDragonEntity = (EnderDragonEntity)(Object) this;
+            World world = enderDragonEntity.getEntityWorld();
+            Main.spawnTNT(enderDragonEntity);
+            world.createExplosion(enderDragonEntity, enderDragonEntity.prevX, enderDragonEntity.prevY, enderDragonEntity.prevZ, 10, Explosion.DestructionType.BREAK);
+        }
     }
 }
