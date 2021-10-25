@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -54,7 +55,7 @@ public class Main implements ModInitializer {
 	public static void spawnTNT(LivingEntity livingEntity) {
 		if (livingEntity.deathTime >= 19) {
 
-			if (livingEntity.getEntityWorld() instanceof ServerWorld) {
+			if (livingEntity.getEntityWorld() instanceof ServerWorld ^ livingEntity instanceof EnderDragonEntity) {
 				ServerWorld serverWorld = (ServerWorld) livingEntity.getEntityWorld();
 				TntEntity tntEntity = new TntEntity(serverWorld, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), null);
 				tntEntity.setFuse(serverWorld.getGameRules().getInt(Main.FUSE_TICKS));
