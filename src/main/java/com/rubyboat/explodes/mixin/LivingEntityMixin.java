@@ -10,8 +10,11 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.world.GameMode;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,6 +30,23 @@ public class LivingEntityMixin {
 			if(((LivingEntity)(Object) this).getEntityWorld().getGameRules().getBoolean(Main.IS_TNT_GAMEMODE))
 			{
 				Main.spawnTNT((LivingEntity)(Object) this);
+			}
+			if (((LivingEntity)(Object) this).getEntityWorld().getGameRules().getBoolean(Main.IS_PEACE_LOVE_AND_PLANTS))
+			{
+				LivingEntity livingEntity = ((LivingEntity)(Object) this).getAttacker();
+				if(livingEntity != null)
+				{
+					if(livingEntity.isPlayer())
+					{
+						livingEntity.kill();
+						PlayerEntity player = (PlayerEntity) livingEntity;
+						if(player instanceof ServerPlayerEntity)
+						{
+							ServerPlayerEntity spe = (ServerPlayerEntity) player;
+							spe.changeGameMode(GameMode.SPECTATOR);
+						}
+					}
+				}
 			}
 		}
 	}

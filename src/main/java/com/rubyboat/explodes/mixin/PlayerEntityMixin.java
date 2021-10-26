@@ -28,7 +28,7 @@ public class PlayerEntityMixin {
             entityAttributeInstance.setBaseValue(-100);
         }
     }
-    @Inject(at = @At("HEAD"), method = "checkFallFlying", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "eatFood", cancellable = true)
     public void checkflight(CallbackInfoReturnable ci)
     {
         /*

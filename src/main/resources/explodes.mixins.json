@@ -7,7 +7,8 @@
     "LivingEntityMixin",
     "TntEntityMixin",
     "DragonEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "ItemMixin"
   ],
   "client": [
   ],

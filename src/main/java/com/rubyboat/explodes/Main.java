@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -14,6 +16,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main implements ModInitializer {
 	/*
@@ -42,16 +47,45 @@ public class Main implements ModInitializer {
 			GAMEMODES,
 			GameRuleFactory.createBooleanRule(false)
 	);
+	public static final GameRules.Key<GameRules.BooleanRule> IS_VEGAN_GAMEMODE = GameRuleRegistry.register(
+			"isVeganGamemode",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
+	public static final GameRules.Key<GameRules.BooleanRule> IS_PEACE_LOVE_AND_PLANTS = GameRuleRegistry.register(
+			"isPeaceLoveAndPlantsGamemode",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
 	public static final GameRules.Key<GameRules.BooleanRule> NO_FALL = GameRuleRegistry.register(
-			"isNoFlight",
+			"isNoFlightGamemode",
 			GAMEMODES,
 			GameRuleFactory.createBooleanRule(false)
 	);
 	public static final GameRules.Key<GameRules.BooleanRule> PVZ = GameRuleRegistry.register(
-			"isPVZ",
+			"isPVZGamemode",
 			GAMEMODES,
 			GameRuleFactory.createBooleanRule(false)
 	);
+	public static final ArrayList<Item> MEAT_LIST = new ArrayList<>(Arrays.asList(
+			Items.COOKED_BEEF,
+			Items.BEEF,
+			Items.MUTTON,
+			Items.COOKED_MUTTON,
+			Items.PORKCHOP,
+			Items.COD,
+			Items.COOKED_COD,
+			Items.SALMON,
+			Items.COOKED_SALMON,
+			Items.PUFFERFISH,
+			Items.ROTTEN_FLESH,
+			Items.TROPICAL_FISH,
+			Items.CHICKEN,
+			Items.COOKED_CHICKEN,
+			Items.RABBIT,
+			Items.COOKED_RABBIT,
+			Items.MILK_BUCKET,
+			Items.POTION));
 	public static void spawnTNT(LivingEntity livingEntity) {
 		if (livingEntity.deathTime >= 19) {
 
