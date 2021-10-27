@@ -4,12 +4,18 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -67,6 +73,16 @@ public class Main implements ModInitializer {
 			GAMEMODES,
 			GameRuleFactory.createBooleanRule(false)
 	);
+	public static final GameRules.Key<GameRules.BooleanRule> DEHYDRATED = GameRuleRegistry.register(
+			"isDehydratedGamemode",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
+	public static final GameRules.Key<GameRules.BooleanRule> OVERHYDRATED = GameRuleRegistry.register(
+			"isOverhydratedGamemode",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
 	public static final ArrayList<Item> MEAT_LIST = new ArrayList<>(Arrays.asList(
 			Items.COOKED_BEEF,
 			Items.BEEF,
@@ -85,7 +101,8 @@ public class Main implements ModInitializer {
 			Items.RABBIT,
 			Items.COOKED_RABBIT,
 			Items.MILK_BUCKET,
-			Items.POTION));
+			Items.POTION
+	));
 	public static void spawnTNT(LivingEntity livingEntity) {
 		if (livingEntity.deathTime >= 19) {
 
@@ -104,6 +121,25 @@ public class Main implements ModInitializer {
 
 		}
 
+	}
+	public static boolean isInWater(BlockState blockState)
+	{
+		if(blockState.getFluidState().isIn(FluidTags.WATER))
+		{
+			return true;
+		}
+		if(blockState.getBlock() == Blocks.WATER ^ blockState.getBlock() == Blocks.WATER_CAULDRON)
+		{
+			return true;
+		}
+		return false;
+	}
+	public static void killPlayerIfNotCreative(PlayerEntity player)
+	{
+		if(!player.isCreative())
+		{
+			player.kill();
+		}
 	}
 
 	@Override

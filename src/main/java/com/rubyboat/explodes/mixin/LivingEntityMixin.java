@@ -38,8 +38,8 @@ public class LivingEntityMixin {
 				{
 					if(livingEntity.isPlayer())
 					{
-						livingEntity.kill();
 						PlayerEntity player = (PlayerEntity) livingEntity;
+						Main.killPlayerIfNotCreative(player);
 						if(player instanceof ServerPlayerEntity)
 						{
 							ServerPlayerEntity spe = (ServerPlayerEntity) player;
