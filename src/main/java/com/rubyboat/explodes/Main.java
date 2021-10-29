@@ -10,6 +10,7 @@ import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -35,9 +36,11 @@ public class Main implements ModInitializer {
 	Peace Love & Plants - No Killing or u become spectator
 	PVZ - No Dealing Damage, but you can place plants
 	NoFall - You Cant Fall
-	OnlyFlight - Stuck In Elytra Flight Mode
+	Celina - Hell & always night
+	Unfair - WHY??!?!?!?
 	 */
 	public static final CustomGameRuleCategory GAMEMODES = new CustomGameRuleCategory(new Identifier("gamemodes", "gamemodes"), Text.of("Gamemodes"));
+
 	public static final GameRules.Key<GameRules.IntRule> FUSE_TICKS = GameRuleRegistry.register(
 			"fuseTicks",
 			GAMEMODES,
@@ -50,6 +53,11 @@ public class Main implements ModInitializer {
 	);
 	public static final GameRules.Key<GameRules.BooleanRule> IS_TNT_GAMEMODE = GameRuleRegistry.register(
 			"isTNTGamemode",
+			GAMEMODES,
+			GameRuleFactory.createBooleanRule(false)
+	);
+	public static final GameRules.Key<GameRules.BooleanRule> Unfair = GameRuleRegistry.register(
+			"isUnfair",
 			GAMEMODES,
 			GameRuleFactory.createBooleanRule(false)
 	);
@@ -82,6 +90,11 @@ public class Main implements ModInitializer {
 			"isOverhydratedGamemode",
 			GAMEMODES,
 			GameRuleFactory.createBooleanRule(false)
+	);
+	public static final GameRules.Key<GameRules.IntRule> TAX_TIME = GameRuleRegistry.register(
+			"TaxInterval",
+			GAMEMODES,
+			GameRuleFactory.createIntRule(8400, 0, 12000)
 	);
 	public static final ArrayList<Item> MEAT_LIST = new ArrayList<>(Arrays.asList(
 			Items.COOKED_BEEF,
@@ -140,6 +153,10 @@ public class Main implements ModInitializer {
 		{
 			player.kill();
 		}
+	}
+	public static float GenerateRandomNumber(int min, int max)
+	{
+		return (float) Math.floor(Math.random()*(max-min+1)+min);
 	}
 
 	@Override

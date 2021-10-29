@@ -8,8 +8,7 @@
     "TntEntityMixin",
     "DragonEntityMixin",
     "PlayerEntityMixin",
-    "ItemMixin",
-    "InGameHUDMixin"
+    "ItemMixin"
   ],
   "client": [
   ],

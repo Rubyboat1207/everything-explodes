@@ -31,5 +31,20 @@ public class ItemMixin
                 }
             }
         }
+        if(world.getGameRules().getBoolean(Main.Unfair))
+        {
+            if(itemStack.isFood())
+            {
+                if(itemStack.getItem() == Items.BREAD)
+                {
+                    user.sendMessage(Text.of("You are allergic to Wheat"), false);
+                    Main.killPlayerIfNotCreative(user);
+                }
+                if(Main.MEAT_LIST.contains(itemStack.getItem())) {
+                    user.sendMessage(Text.of("You are vegetarian"), false);
+
+                }
+            }
+        }
     }
 }
