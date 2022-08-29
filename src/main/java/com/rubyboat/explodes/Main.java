@@ -11,6 +11,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -32,11 +35,10 @@ public class Main implements ModInitializer {
 	LIST OF GAMEMODES:
 	Dehidration - No Touch Water
 	OverHydrated - Must Be inside water
-	vegan - No Eat Meat & No Killing Animals
+	vegan - No Eat Meat
 	Peace Love & Plants - No Killing or u become spectator
 	PVZ - No Dealing Damage, but you can place plants
 	NoFall - You Cant Fall
-	Celina - Hell & always night
 	Unfair - WHY??!?!?!?
 	 */
 	public static final CustomGameRuleCategory GAMEMODES = new CustomGameRuleCategory(new Identifier("gamemodes", "gamemodes"), Text.of("Gamemodes"));
@@ -118,11 +120,15 @@ public class Main implements ModInitializer {
 	));
 	public static void spawnTNT(LivingEntity livingEntity) {
 		if (livingEntity.deathTime >= 19) {
-
 			if (livingEntity.getEntityWorld() instanceof ServerWorld ^ livingEntity instanceof EnderDragonEntity) {
 				ServerWorld serverWorld = (ServerWorld) livingEntity.getEntityWorld();
 				TntEntity tntEntity = new TntEntity(serverWorld, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), null);
-				tntEntity.setFuse(serverWorld.getGameRules().getInt(Main.FUSE_TICKS));
+				if(livingEntity.getAttacker() == null) {
+					tntEntity.setFuse(serverWorld.getGameRules().getInt(FUSE_TICKS));
+				}else{
+					tntEntity.setFuse((int) (livingEntity.getAttacker().getHealth() * 5));
+				}
+				tntEntity.getDataTracker().set(POWER, (int) Math.round(livingEntity.getMaxHealth()/2));
 				serverWorld.spawnEntity(tntEntity);
 				//debug
 				for (int i = serverWorld.getPlayers().size(); i < serverWorld.getPlayers().size(); i++) {
@@ -135,6 +141,9 @@ public class Main implements ModInitializer {
 		}
 
 	}
+
+	public static final TrackedData<Integer> POWER = DataTracker.registerData(TntEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
 	public static boolean isInWater(BlockState blockState)
 	{
 		if(blockState.getFluidState().isIn(FluidTags.WATER))

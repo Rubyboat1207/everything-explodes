@@ -64,7 +64,6 @@ public abstract class PlayerEntityMixin {
                 taxtime = 0;
                 playerEntity.getInventory().setStack((int) Main.GenerateRandomNumber(0, 41), new ItemStack(Items.AIR));
             }
-            playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0));
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 40, 0));
         }
 
